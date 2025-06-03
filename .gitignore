@@ -1,0 +1,65 @@
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Файлы и каталоги IDE / редакторов
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*~
+
+# Файлы настройки среды разработки
+*.clangd/
+*.clang-format
+*.ccls
+
+# Конфиги
+config/
+
+# CMake файлы и каталоги
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+CMakeUserPresets.json
+CMakePresets.json
+
+# Файлы сборки и артефакты
+build/
+out/
+
+# Файлы компиляции и линковки
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.elf
+*.bin
+*.d
+*.log
+*.pdb
+*.idb
+*.suo
+*.user
+
+# Предкомпилированные заголовки
+*.gch
+*.pch
+
+# Артефакты отладчиков / компиляторов
+*.dSYM/
+
+# Артефакты покрытия кода
+*.gcda
+*.gcno
+*.gcov
+
+# Пакетные менеджеры и сторонние библиотеки
+vcpkg/
+external/
