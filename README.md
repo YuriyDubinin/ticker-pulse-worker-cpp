@@ -1,1 +1,1 @@
-# ticker-pulse-bot-cpp v.1.0.0
+# ticker-pulse-worker-cpp v.1.0.0
