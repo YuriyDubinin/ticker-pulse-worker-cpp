@@ -26,6 +26,7 @@ include_directories("${VCPKG_INSTALLED_PATH}/include")
 
 # Поиск зависимостей
 find_package(fmt REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 # Заголовочные файлы
 include_directories(
@@ -42,5 +43,5 @@ add_executable(TickerPulseWorker
 # Линковка зависимостей
 target_link_libraries(TickerPulseWorker
     fmt::fmt
-    ${TGBOT_CPP_LIB}
+    nlohmann_json::nlohmann_json
 )
