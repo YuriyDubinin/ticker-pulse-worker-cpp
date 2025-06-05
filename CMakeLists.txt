@@ -21,6 +21,7 @@ endif()
 find_package(fmt REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(CURL REQUIRED)
+find_package(PostgreSQL REQUIRED)
 
 add_executable(TickerPulseWorker
     src/main.cpp
@@ -37,4 +38,5 @@ target_link_libraries(TickerPulseWorker
     fmt::fmt
     nlohmann_json::nlohmann_json
     CURL::libcurl
+    PostgreSQL::PostgreSQL
 )
