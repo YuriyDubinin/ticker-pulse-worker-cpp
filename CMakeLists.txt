@@ -23,8 +23,8 @@ find_package(nlohmann_json REQUIRED)
 find_package(CURL REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
-add_executable(TickerPulseWorker
-    src/main.cpp
+add_executable(TickerPulseWorker 
+    main.cpp
 )
 
 target_include_directories(TickerPulseWorker

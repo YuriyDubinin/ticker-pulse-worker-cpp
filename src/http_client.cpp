@@ -56,3 +56,52 @@ nlohmann::json HTTPClient::fetch_json(const std::string& url) {
     // Пустой JSON в случае ошибки
     return nlohmann::json();
 }
+
+nlohmann::json HTTPClient::request_json(
+    const std::string& url,
+    const std::string& method,
+    const std::string& body = "",
+    const std::vector<std::string>& headers = {}
+) {
+    CURL* curl = curl_easy_init();
+    std::string readBuffer;
+
+    if (!curl) return nlohmann::json();
+
+    struct curl_slist* header_list = nullptr;
+    for (const auto& h : headers) {
+        header_list = curl_slist_append(header_list, h.c_str());
+    }
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+    if (!headers.empty()) {
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_list);
+    }
+
+    if (method == "POST" || method == "PUT") {
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, body.size());
+    }
+
+    CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        fmt::print("[HTTP_CLIENT]: cURL error: {}\n", curl_easy_strerror(res));
+    }
+
+    curl_easy_cleanup(curl);
+    if (header_list) curl_slist_free_all(header_list);
+
+    if (!readBuffer.empty()) {
+        try {
+            return nlohmann::json::parse(readBuffer);
+        } catch (const nlohmann::json::exception& e) {
+            fmt::print("[HTTP_CLIENT]: JSON parsing error: {}\n", e.what());
+        }
+    }
+
+    return nlohmann::json();
+}
