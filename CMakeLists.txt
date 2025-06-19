@@ -26,9 +26,10 @@ find_package(PostgreSQL REQUIRED)
 # Исходники из src
 file(GLOB SRC_SOURCES
     src/*.cpp
-    src/utils/*.cpp
-    src/services/*.cpp
+    src/db/*.cpp
     src/models/*.cpp
+    src/services/*.cpp
+    src/utils/*.cpp
 )
 
 # Конфиги
@@ -49,9 +50,10 @@ target_include_directories(TickerPulseWorker
     "${CMAKE_SOURCE_DIR}/src"
     "${CMAKE_SOURCE_DIR}/config"
     "${CMAKE_SOURCE_DIR}/include"
-    "${CMAKE_SOURCE_DIR}/include/utils";
-    "${CMAKE_SOURCE_DIR}/include/services"
+    "${CMAKE_SOURCE_DIR}/include/db"
     "${CMAKE_SOURCE_DIR}/include/models"
+    "${CMAKE_SOURCE_DIR}/include/services"
+    "${CMAKE_SOURCE_DIR}/include/utils"
 )
 
 target_link_libraries(TickerPulseWorker

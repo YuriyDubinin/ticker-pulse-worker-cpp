@@ -1,6 +1,9 @@
 #ifndef QUOTES_WORKER
 #define QUOTES_WORKER
 
+#include "http_client.h"
+#include "postgres_connection.h"
+
 class QuotesWorker {
   public:
     explicit QuotesWorker();
@@ -9,6 +12,9 @@ class QuotesWorker {
     void parse_quotes();
 
   private:
+    HTTPClient         http_client;
+    PostgresConnection postgres_connection;
+
     void fetch_quotes();
 };
 

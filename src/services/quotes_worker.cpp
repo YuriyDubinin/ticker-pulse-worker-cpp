@@ -2,9 +2,8 @@
 #include <fmt/core.h>
 #include <iostream>
 #include "global_config.h"
-#include "http_client.h"
 
-QuotesWorker::QuotesWorker() {
+QuotesWorker::QuotesWorker() : postgres_connection(DB_CONNECTION_INFO) {
 }
 
 QuotesWorker::~QuotesWorker() {
@@ -29,7 +28,6 @@ void QuotesWorker::fetch_quotes() {
         {"ignore_unknown_fields", false},
         {"preset", "coin_market_cap_rank"}};
 
-    HTTPClient               http_client;
     std::vector<std::string> header        = {"Content-Type: application/json", "Accept: application/json"};
     nlohmann::json           response_json = http_client.request_json(QUOTES_URL, "POST", body.dump(), header);
 
