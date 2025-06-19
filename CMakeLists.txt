@@ -23,17 +23,20 @@ find_package(nlohmann_json REQUIRED)
 find_package(CURL REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
-# Собираем все исходники из src
+# Исходники из src
 file(GLOB SRC_SOURCES
     src/*.cpp
+    src/utils/*.cpp
+    src/services/*.cpp
+    src/models/*.cpp
 )
 
-# Явно добавляем cpp файлы из config
+# Конфиги
 file(GLOB CONFIG_SOURCES
     config/*.cpp
 )
 
-# Объединяем все файлы в один список
+# Объединение источников в один список
 set(ALL_SOURCES
     ${SRC_SOURCES}
     ${CONFIG_SOURCES}
@@ -44,8 +47,11 @@ add_executable(TickerPulseWorker ${ALL_SOURCES})
 target_include_directories(TickerPulseWorker
     PRIVATE
     "${CMAKE_SOURCE_DIR}/src"
-    "${CMAKE_SOURCE_DIR}/include"
     "${CMAKE_SOURCE_DIR}/config"
+    "${CMAKE_SOURCE_DIR}/include"
+    "${CMAKE_SOURCE_DIR}/include/utils";
+    "${CMAKE_SOURCE_DIR}/include/services"
+    "${CMAKE_SOURCE_DIR}/include/models"
 )
 
 target_link_libraries(TickerPulseWorker

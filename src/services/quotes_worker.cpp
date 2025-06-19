@@ -29,9 +29,9 @@ void QuotesWorker::fetch_quotes() {
         {"ignore_unknown_fields", false},
         {"preset", "coin_market_cap_rank"}};
 
-    HTTPClient http_client;
-    std::vector<std::string> header = {"Content-Type: application/json", "Accept: application/json"};
-    nlohmann::json response_json = http_client.request_json(QUOTES_URL, "POST", body.dump(), header);
+    HTTPClient               http_client;
+    std::vector<std::string> header        = {"Content-Type: application/json", "Accept: application/json"};
+    nlohmann::json           response_json = http_client.request_json(QUOTES_URL, "POST", body.dump(), header);
 
     if (response_json.is_discarded() || response_json.is_null()) {
         fmt::print("[QuotesWorker]: Failed to parse or empty JSON response\n");
