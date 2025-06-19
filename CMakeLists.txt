@@ -23,9 +23,12 @@ find_package(nlohmann_json REQUIRED)
 find_package(CURL REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
-add_executable(TickerPulseWorker 
-    main.cpp
+# Собираем все исходники из src
+file(GLOB SOURCES
+    src/*.cpp
 )
+
+add_executable(TickerPulseWorker ${SOURCES})
 
 target_include_directories(TickerPulseWorker
     PRIVATE

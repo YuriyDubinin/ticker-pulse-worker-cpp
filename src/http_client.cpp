@@ -56,9 +56,10 @@ nlohmann::json HTTPClient::fetch_json(const std::string &url) {
     return nlohmann::json();
 }
 
-nlohmann::json HTTPClient::request_json(const std::string &url, const std::string &method,
-                                        const std::string              &body    = "",
-                                        const std::vector<std::string> &headers = {}) {
+nlohmann::json HTTPClient::request_json(const std::string              &url,
+                                        const std::string              &method,
+                                        const std::string              &body,
+                                        const std::vector<std::string> &headers) {
     CURL       *curl = curl_easy_init();
     std::string readBuffer;
 

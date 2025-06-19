@@ -11,7 +11,8 @@ class HTTPClient {
     ~HTTPClient();
 
     nlohmann::json fetch_json(const std::string &url);
-    nlohmann::json request_json(const std::string &url, const std::string &method,
+    nlohmann::json request_json(const std::string              &url,
+                                const std::string              &method,
                                 const std::string              &body    = "",
                                 const std::vector<std::string> &headers = {});
 
