@@ -1,11 +1,12 @@
-#include "global_config.h"
 #include <fmt/core.h>
 #include <libpq-fe.h>
+#include "global_config.h"
+#include "quotes_worker.h"
 
 int main() {
     fmt::print("\n[TICKER_PULSE_WORKER]: started, version: {}", VERSION);
 
-    PGconn* connection = PQconnectdb(CONNECTION_INFO);
+    PGconn* connection = PQconnectdb(DB_CONNECTION_INFO);
     if (PQstatus(connection) != CONNECTION_OK) {
         fmt::print(stderr, "[ERROR] [TICKER_PULSE_WORKER]: {}\n", PQerrorMessage(connection));
         PQfinish(connection);
@@ -40,6 +41,9 @@ int main() {
 
     PQclear(result);
     PQfinish(connection);
+
+    QuotesWorker quotes_worker;
+    quotes_worker.fetch_quotes();
 
     return 0;
 }

@@ -24,11 +24,22 @@ find_package(CURL REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
 # Собираем все исходники из src
-file(GLOB SOURCES
+file(GLOB SRC_SOURCES
     src/*.cpp
 )
 
-add_executable(TickerPulseWorker ${SOURCES})
+# Явно добавляем cpp файлы из config
+file(GLOB CONFIG_SOURCES
+    config/*.cpp
+)
+
+# Объединяем все файлы в один список
+set(ALL_SOURCES
+    ${SRC_SOURCES}
+    ${CONFIG_SOURCES}
+)
+
+add_executable(TickerPulseWorker ${ALL_SOURCES})
 
 target_include_directories(TickerPulseWorker
     PRIVATE

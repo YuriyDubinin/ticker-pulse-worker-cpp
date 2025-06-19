@@ -6,7 +6,7 @@ class QuotesWorker {
     explicit QuotesWorker();
     ~QuotesWorker();
 
-  private:
+
     void fetch_quotes();
 };
 
