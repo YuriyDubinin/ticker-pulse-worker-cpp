@@ -1,11 +1,11 @@
+#include "global_config.h"
 #include <fmt/core.h>
 #include <libpq-fe.h>
-#include "global_config.h"
 
 int main() {
     fmt::print("\n[TICKER_PULSE_WORKER]: started, version: {}", VERSION);
 
-    PGconn *connection = PQconnectdb(CONNECTION_INFO);
+    PGconn* connection = PQconnectdb(CONNECTION_INFO);
     if (PQstatus(connection) != CONNECTION_OK) {
         fmt::print(stderr, "[ERROR] [TICKER_PULSE_WORKER]: {}\n", PQerrorMessage(connection));
         PQfinish(connection);
@@ -14,10 +14,9 @@ int main() {
 
     fmt::print("\n[TICKER_PULSE_WORKER]: Connected to PostgreSQL successfully!\n");
 
-    const char *query =
-        "SELECT id, ticker, description, type, exchange, total_rank, currency "
-        "FROM quotes ORDER BY total_rank ASC LIMIT 10;";
-    PGresult *result = PQexec(connection, query);
+    const char* query  = "SELECT id, ticker, description, type, exchange, total_rank, currency "
+                         "FROM quotes ORDER BY total_rank ASC LIMIT 10;";
+    PGresult*   result = PQexec(connection, query);
 
     if (PQresultStatus(result) != PGRES_TUPLES_OK) {
         fmt::print(stderr, "[ERROR] [TICKER_PULSE_WORKER]: {}\n", PQerrorMessage(connection));

@@ -46,7 +46,7 @@ void ThreadPool::stop() {
 
     cv.notify_all();
 
-    for (std::thread &worker : workers) {
+    for (std::thread& worker : workers) {
         worker.join();
     }
 };

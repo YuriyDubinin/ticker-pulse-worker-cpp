@@ -10,14 +10,14 @@
 #include <vector>
 
 class ThreadPool {
-   public:
+  public:
     explicit ThreadPool(size_t threads_count);
     ~ThreadPool();
 
     void enqueue_task(std::function<void()> task);
     void stop();
 
-   private:
+  private:
     std::vector<std::thread>          workers;
     std::queue<std::function<void()>> task_queue;
     std::mutex                        queue_mutex;

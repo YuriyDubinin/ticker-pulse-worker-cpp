@@ -2,11 +2,11 @@
 #define QUOTES_WORKER
 
 class QuotesWorker {
-   public:
+  public:
     explicit QuotesWorker();
     ~QuotesWorker();
 
-   private:
+  private:
     void fetch_quotes();
 };
 
