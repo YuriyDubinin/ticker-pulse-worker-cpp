@@ -7,5 +7,4 @@ QuotesWorker::~QuotesWorker() {
 }
 
 void QuotesWorker::fetch_quotes() {
-    
 }
