@@ -1,6 +1,9 @@
 #include "quotes_worker.h"
+#include <chrono>
 #include <fmt/core.h>
 #include <iostream>
+#include <random>
+#include <thread>
 #include "global_config.h"
 
 QuotesWorker::QuotesWorker() : postgres_connection(DB_CONNECTION_INFO) {
@@ -10,14 +13,25 @@ QuotesWorker::~QuotesWorker() {
 }
 
 void QuotesWorker::parse_quotes() {
-    int is_fetched = fetch_quotes();
+    std::random_device              rd;
+    std::mt19937                    gen(rd());
+    std::uniform_int_distribution<> distr(5, 10);
 
-    if (!is_fetched) {
-        fmt::print("[QuotesWorker]: NO_DATA\n");
+    while (true) {
+        int is_fetched = fetch_quotes(100);
+
+        if (!is_fetched) {
+            fmt::print("[QuotesWorker]: NO_DATA\n");
+            break;
+        }
+
+        int wait_seconds = distr(gen);
+        fmt::print("[QuotesWorker]: fetched data, waiting {} seconds...\n", wait_seconds);
+        std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
     }
 }
 
-int QuotesWorker::fetch_quotes() {
+int QuotesWorker::fetch_quotes(unsigned int offset) {
     nlohmann::json body = {
         {"filter", nlohmann::json::array()},
         {"options", {{"lang", "en"}}},

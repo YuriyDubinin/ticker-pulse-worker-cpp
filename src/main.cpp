@@ -3,7 +3,7 @@
 #include "quotes_worker.h"
 
 int main() {
-    fmt::print("\n[TICKER_PULSE_WORKER]: started, version: {}", VERSION);
+    fmt::print("\n[TICKER_PULSE_WORKER]: started, version: {}\n", VERSION);
 
     QuotesWorker quotes_worker;
 
