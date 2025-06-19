@@ -27,23 +27,23 @@ int main() {
     }
 
     int rows = PQntuples(result);
-    for (int i = 0; i < rows; i++) {
-        std::string id          = PQgetvalue(result, i, 0);
-        std::string ticker      = PQgetvalue(result, i, 1);
-        std::string description = PQgetvalue(result, i, 2);
-        std::string type        = PQgetvalue(result, i, 3);
-        std::string exchange    = PQgetvalue(result, i, 4);
-        std::string total_rank  = PQgetvalue(result, i, 5);
-        std::string currency    = PQgetvalue(result, i, 6);
+    // for (int i = 0; i < rows; i++) {
+    //     std::string id          = PQgetvalue(result, i, 0);
+    //     std::string ticker      = PQgetvalue(result, i, 1);
+    //     std::string description = PQgetvalue(result, i, 2);
+    //     std::string type        = PQgetvalue(result, i, 3);
+    //     std::string exchange    = PQgetvalue(result, i, 4);
+    //     std::string total_rank  = PQgetvalue(result, i, 5);
+    //     std::string currency    = PQgetvalue(result, i, 6);
 
-        fmt::print("ticker: {}, description: {}\n", ticker, description);
-    }
+    //     fmt::print("ticker: {}, description: {}\n", ticker, description);
+    // }
 
     PQclear(result);
     PQfinish(connection);
 
     QuotesWorker quotes_worker;
-    quotes_worker.fetch_quotes();
+    quotes_worker.parse_quotes();
 
     return 0;
 }
