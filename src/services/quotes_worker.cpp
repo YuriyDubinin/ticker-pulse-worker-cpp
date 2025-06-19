@@ -10,10 +10,14 @@ QuotesWorker::~QuotesWorker() {
 }
 
 void QuotesWorker::parse_quotes() {
-    fetch_quotes();
+    int is_fetched = fetch_quotes();
+
+    if (!is_fetched) {
+        fmt::print("[QuotesWorker]: NO_DATA\n");
+    }
 }
 
-void QuotesWorker::fetch_quotes() {
+int QuotesWorker::fetch_quotes() {
     nlohmann::json body = {
         {"filter", nlohmann::json::array()},
         {"options", {{"lang", "en"}}},
@@ -33,21 +37,22 @@ void QuotesWorker::fetch_quotes() {
 
     if (response_json.is_discarded() || response_json.is_null()) {
         fmt::print("[QuotesWorker]: Failed to parse or empty JSON response\n");
-        return;
+        return 0;
     }
 
     if (!response_json.contains("data") || !response_json["data"].is_array()) {
         fmt::print("[QuotesWorker]: Response JSON missing 'data' array\n");
-        return;
+        return 0;
     }
 
     for (const auto& symbol : response_json["data"]) {
         if (symbol.contains("d")) {
-            fmt::print("[QuotesWorker]: {}\n", symbol["d"].dump());
-            // inserting;
-            // upsert_quote(symbol["d"]);
+            Quote quote = Quote::from_json(symbol["d"]);
+            // fmt::print("[QuotesWorker]: {}\n", symbol["d"].dump());
+            postgres_connection.upsert_quote(quote);
         }
     }
 
     fmt::print("[QuotesWorker]: Quotes updated successfully\n");
+    return 1;
 }

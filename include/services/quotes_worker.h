@@ -15,7 +15,7 @@ class QuotesWorker {
     HTTPClient         http_client;
     PostgresConnection postgres_connection;
 
-    void fetch_quotes();
+    int fetch_quotes();
 };
 
 #endif
