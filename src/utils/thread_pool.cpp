@@ -7,7 +7,9 @@ ThreadPool::ThreadPool(size_t threads_count) : stop_flag(false) {
                 std::function<void()> task;
                 {
                     std::unique_lock<std::mutex> lock(queue_mutex);
-                    cv.wait(lock, [this]() { return stop_flag || !task_queue.empty(); });
+                    cv.wait(lock, [this]() {
+                        return stop_flag || !task_queue.empty();
+                    });
 
                     if (stop_flag && task_queue.empty()) {
                         return;
@@ -24,10 +26,8 @@ ThreadPool::ThreadPool(size_t threads_count) : stop_flag(false) {
 };
 
 ThreadPool::~ThreadPool() {
-    if (stop_flag) {
-        stop();
-    }
-};
+    stop();
+}
 
 void ThreadPool::enqueue_task(std::function<void()> task) {
     {
@@ -41,6 +41,8 @@ void ThreadPool::enqueue_task(std::function<void()> task) {
 void ThreadPool::stop() {
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
+        if (stop_flag)
+            return;
         stop_flag = true;
     }
 
