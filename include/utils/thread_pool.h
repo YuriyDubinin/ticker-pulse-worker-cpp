@@ -1,5 +1,5 @@
-#ifndef THREADPOOL_H
-#define THREADPOOL_H
+#ifndef THREADPOOL
+#define THREADPOOL
 
 #include <atomic>
 #include <condition_variable>

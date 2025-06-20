@@ -1,5 +1,5 @@
-#ifndef HTTP_CLIENT_H
-#define HTTP_CLIENT_H
+#ifndef HTTP_CLIENT
+#define HTTP_CLIENT
 
 #include <curl/curl.h>
 #include <nlohmann/json.hpp>
