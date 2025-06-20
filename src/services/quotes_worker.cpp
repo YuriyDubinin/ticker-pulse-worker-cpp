@@ -20,10 +20,10 @@ void QuotesWorker::parse_quotes() {
     unsigned int                    step   = 100;
 
     while (true) {
-        int is_fetched = fetch_quotes(offset, step);
+        int is_fetching_over = fetch_quotes(offset, step);
 
-        if (!is_fetched) {
-            fmt::print("[QuotesWorker]: NO_DATA\n");
+        if (is_fetching_over) {
+            fmt::print("[QuotesWorker]: The quotes are over, parsing completed\n");
             break;
         }
 
@@ -55,12 +55,12 @@ int QuotesWorker::fetch_quotes(unsigned int offset, unsigned int step) {
 
     if (response_json.is_discarded() || response_json.is_null()) {
         fmt::print("[QuotesWorker]: Failed to parse or empty JSON response\n");
-        return 0;
+        return 1;
     }
 
     if (!response_json.contains("data") || !response_json["data"].is_array()) {
         fmt::print("[QuotesWorker]: Response JSON missing 'data' array\n");
-        return 0;
+        return 1;
     }
 
     for (const auto& symbol : response_json["data"]) {
@@ -72,5 +72,5 @@ int QuotesWorker::fetch_quotes(unsigned int offset, unsigned int step) {
     }
 
     fmt::print("[QuotesWorker]: Quotes updated successfully\n");
-    return 1;
+    return 0;
 }
