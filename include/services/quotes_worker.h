@@ -15,8 +15,7 @@ class QuotesWorker {
     HTTPClient         http_client;
     PostgresConnection postgres_connection;
 
-    int  fetch_quotes(unsigned int offset);
-    void parse_quotes_recursive(unsigned int offset);
+    int fetch_quotes(unsigned int offset, unsigned int step);
 };
 
 #endif

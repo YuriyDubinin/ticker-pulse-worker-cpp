@@ -16,14 +16,18 @@ void QuotesWorker::parse_quotes() {
     std::random_device              rd;
     std::mt19937                    gen(rd());
     std::uniform_int_distribution<> distr(5, 10);
+    unsigned int                    offset = 0;
+    unsigned int                    step   = 100;
 
     while (true) {
-        int is_fetched = fetch_quotes(100);
+        int is_fetched = fetch_quotes(offset, step);
 
         if (!is_fetched) {
             fmt::print("[QuotesWorker]: NO_DATA\n");
             break;
         }
+
+        offset += step;
 
         int wait_seconds = distr(gen);
         fmt::print("[QuotesWorker]: fetched data, waiting {} seconds...\n", wait_seconds);
@@ -31,7 +35,7 @@ void QuotesWorker::parse_quotes() {
     }
 }
 
-int QuotesWorker::fetch_quotes(unsigned int offset) {
+int QuotesWorker::fetch_quotes(unsigned int offset, unsigned int step) {
     nlohmann::json body = {
         {"filter", nlohmann::json::array()},
         {"options", {{"lang", "en"}}},
@@ -42,7 +46,7 @@ int QuotesWorker::fetch_quotes(unsigned int offset) {
           "24h_close_change|5", "market_cap_calc", "24h_vol_cmc", "circulating_supply"}},
         {"sort", {{"sortBy", "crypto_total_rank"}, {"sortOrder", "asc"}}},
         {"price_conversion", {{"to_symbol", false}}},
-        {"range", {0, 100}},
+        {"range", {offset, offset + step}},
         {"ignore_unknown_fields", false},
         {"preset", "coin_market_cap_rank"}};
 
