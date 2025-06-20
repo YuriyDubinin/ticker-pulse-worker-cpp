@@ -1,4 +1,6 @@
+#include <chrono>
 #include <fmt/core.h>
+#include <thread>
 #include "global_config.h"
 #include "quotes_worker.h"
 #include "thread_pool.h"
@@ -10,7 +12,11 @@ int main() {
     ThreadPool   thread_pool(4);
 
     thread_pool.enqueue_task([&quotes_worker]() {
-        quotes_worker.parse_quotes();
+        while (true) {
+            quotes_worker.parse_quotes();
+
+            std::this_thread::sleep_for(std::chrono::minutes(15));
+        }
     });
 
     return 0;
