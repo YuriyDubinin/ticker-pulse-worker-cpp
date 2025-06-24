@@ -9,13 +9,11 @@ class NewsWorker {
     explicit NewsWorker();
     ~NewsWorker();
 
-    void parse_news();
+    void fetch_news();
 
   private:
     HTTPClient         http_client;
     PostgresConnection postgres_connection;
-
-    int fetch_news(unsigned int offset, unsigned int step);
 };
 
 #endif
