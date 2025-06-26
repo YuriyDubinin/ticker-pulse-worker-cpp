@@ -112,25 +112,23 @@ void PostgresConnection::insert_news_if_not_exists(const News& news) {
             source_logo_id,
             source_url,
             story_path,
-            published,
             link
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8
+            $1, $2, $3, $4, $5, $6, $7
         )
         ON CONFLICT (uid) DO NOTHING;
     )SQL";
 
-  const char* paramValues[8];
+  const char* paramValues[7];
   paramValues[0] = news.uid.c_str();
   paramValues[1] = news.title.c_str();
   paramValues[2] = news.source.c_str();
   paramValues[3] = news.source_logo_id.c_str();
   paramValues[4] = news.source_url.c_str();
   paramValues[5] = news.story_path.c_str();
-  paramValues[6] = news.published.c_str();
-  paramValues[7] = news.link.c_str();
+  paramValues[6] = news.link.c_str();
 
-  PGresult* res = PQexecParams(conn, query, 8, nullptr, paramValues, nullptr, nullptr, 0);
+  PGresult* res = PQexecParams(conn, query, 7, nullptr, paramValues, nullptr, nullptr, 0);
 
   if (PQresultStatus(res) != PGRES_COMMAND_OK) {
     fmt::print("[PostgresConnection]: Failed to insert news: {}\n", PQerrorMessage(conn));

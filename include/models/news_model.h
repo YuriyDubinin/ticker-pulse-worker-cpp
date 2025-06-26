@@ -12,7 +12,6 @@ struct News {
     std::string source_logo_id;
     std::string source_url;
     std::string story_path;
-    std::string published;
     std::string link;
 
     static News from_json(const nlohmann::json& json);
