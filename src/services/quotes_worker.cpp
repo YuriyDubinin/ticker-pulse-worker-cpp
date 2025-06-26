@@ -33,7 +33,7 @@ void QuotesWorker::parse_quotes() {
     offset += step;
 
     int wait_seconds = wait_seconds_distributor(gen);
-    fmt::print("[QuotesWorker]: fetched data, waiting {} seconds...\n", wait_seconds);
+    // fmt::print("[QuotesWorker]: fetched quotes, waiting {} seconds...\n", wait_seconds);
     std::this_thread::sleep_for(std::chrono::seconds(wait_seconds));
   }
 }
@@ -88,6 +88,6 @@ int QuotesWorker::fetch_quotes(unsigned int offset, unsigned int step) {
     }
   }
 
-  fmt::print("[QuotesWorker]: Quotes updated successfully\n");
+  // fmt::print("[QuotesWorker]: Quotes updated successfully\n");
   return 0;
 }

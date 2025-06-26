@@ -9,6 +9,9 @@ class NewsWorker {
     explicit NewsWorker();
     ~NewsWorker();
 
+    NewsWorker(const NewsWorker&)            = delete;
+    NewsWorker& operator=(const NewsWorker&) = delete;
+
     void fetch_news();
 
   private:

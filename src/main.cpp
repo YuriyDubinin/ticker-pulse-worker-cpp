@@ -17,6 +17,13 @@ int main() {
   thread_pool.enqueue_task([quotes_worker]() {
     while (true) {
       quotes_worker->parse_quotes();
+      std::this_thread::sleep_for(std::chrono::minutes(20));
+    }
+  });
+
+  thread_pool.enqueue_task([news_worker]() {
+    while (true) {
+      news_worker->fetch_news();
       std::this_thread::sleep_for(std::chrono::minutes(30));
     }
   });

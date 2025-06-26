@@ -11,7 +11,7 @@ class PostgresConnection {
     explicit PostgresConnection(const std::string& connection_info);
     ~PostgresConnection();
 
-    PostgresConnection(const PostgresConnection&) = delete;
+    PostgresConnection(const PostgresConnection&)            = delete;
     PostgresConnection& operator=(const PostgresConnection&) = delete;
 
     bool      isConnected() const;
