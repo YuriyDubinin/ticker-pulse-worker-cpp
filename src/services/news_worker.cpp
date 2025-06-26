@@ -1,12 +1,12 @@
 #include "news_worker.h"
+#include <chrono>
 #include <fmt/core.h>
-#include <nlohmann/json.hpp>
-#include "global_config.h"
-#include "common.h"
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <random>
-#include <chrono>
+#include "common.h"
+#include "global_config.h"
 
 NewsWorker::NewsWorker() : postgres_connection(DB_CONNECTION_INFO) {
 }
@@ -19,7 +19,7 @@ void NewsWorker::fetch_news() {
   std::mt19937                    gen(rd());
   std::uniform_int_distribution<> header_index_distributor(0, 9);
   nlohmann::json                  quotes_headers_json;
-  nlohmann::json body = {
+  nlohmann::json                  body = {
 
   };
 
@@ -32,7 +32,7 @@ void NewsWorker::fetch_news() {
   }
 
   file >> quotes_headers_json;
-  
+
   std::vector<std::string> headers = common::build_headers_from_json(quotes_headers_json["headers"][header_index]);
   nlohmann::json           response_json = http_client.request_json(NEWS_URL, "GET", body.dump(), headers);
 

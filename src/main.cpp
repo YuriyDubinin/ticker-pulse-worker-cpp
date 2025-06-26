@@ -1,5 +1,6 @@
 #include <chrono>
 #include <fmt/core.h>
+#include <memory>
 #include <thread>
 #include "global_config.h"
 #include "news_worker.h"
@@ -9,17 +10,16 @@
 int main() {
   fmt::print("\n[TICKER_PULSE_WORKER]: started, version: {}\n", VERSION);
 
-  ThreadPool   thread_pool(4);
-  QuotesWorker quotes_worker;
-  NewsWorker   news_worker;
-  
-  // thread_pool.enqueue_task([&quotes_worker]() {
-  //     while (true) {
-  //         quotes_worker.parse_quotes();
+  ThreadPool thread_pool(4);
+  auto       quotes_worker = std::make_shared<QuotesWorker>();
+  auto       news_worker   = std::make_shared<NewsWorker>();
 
-  //         std::this_thread::sleep_for(std::chrono::minutes(30));
-  //     }
-  // });
+  thread_pool.enqueue_task([quotes_worker]() {
+    while (true) {
+      quotes_worker->parse_quotes();
+      std::this_thread::sleep_for(std::chrono::minutes(30));
+    }
+  });
 
   return 0;
 }

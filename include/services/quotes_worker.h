@@ -12,7 +12,11 @@ class QuotesWorker {
     explicit QuotesWorker();
     ~QuotesWorker();
 
+    QuotesWorker(const QuotesWorker&) = delete;
+    QuotesWorker& operator=(const QuotesWorker&) = delete;
+
     void parse_quotes();
+    
 
   private:
     HTTPClient         http_client;
