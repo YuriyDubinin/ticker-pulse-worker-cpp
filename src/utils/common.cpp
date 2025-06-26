@@ -28,21 +28,34 @@ namespace common {
 
     return result;
   }
+
   std::string trim_text_to_limit(const std::string& text, size_t limit = 1024) {
     if (text.length() <= limit)
       return text;
     return text.substr(0, limit - 3) + "...";
   }
 
-  std::string safe_string(const nlohmann::json& j, int index) {
+  std::string safe_string_from_json_array(const nlohmann::json& j, int index) {
     return (j.size() > index && !j.at(index).is_null()) ? j.at(index).get<std::string>() : "";
   }
 
-  int safe_int(const nlohmann::json& j, int index) {
+  int safe_int_from_json_array(const nlohmann::json& j, int index) {
     return (j.size() > index && j.at(index).is_number_integer()) ? j.at(index).get<int>() : 0;
   }
 
-  double safe_double(const nlohmann::json& j, int index) {
+  double safe_double_from_json_array(const nlohmann::json& j, int index) {
     return (j.size() > index && j.at(index).is_number()) ? j.at(index).get<double>() : 0.0;
+  }
+
+  std::string safe_string_from_json_object(const nlohmann::json& j, const std::string& key) {
+    return (j.contains(key) && !j.at(key).is_null() && j.at(key).is_string()) ? j.at(key).get<std::string>() : "";
+  }
+
+  int safe_int_from_json_object(const nlohmann::json& j, const std::string& key) {
+    return (j.contains(key) && j.at(key).is_number_integer()) ? j.at(key).get<int>() : 0;
+  }
+
+  double safe_double_from_json_object(const nlohmann::json& j, const std::string& key) {
+    return (j.contains(key) && j.at(key).is_number()) ? j.at(key).get<double>() : 0.0;
   }
 } // namespace common

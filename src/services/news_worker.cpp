@@ -18,10 +18,11 @@ void NewsWorker::fetch_news() {
   nlohmann::json           response_json = http_client.request_json(NEWS_URL, "GET", body.dump(), headers);
 
   for (const auto& headline : response_json.items()) {
-    // fmt::print("{}\n", headline.value().dump());
-
+    // fmt::print("\n{}\n", headline.value().dump());
     News const news = News::from_json(headline.value());
 
-    postgres_connection.insert_news_if_not_exists(news);
+    if (!news.link.empty()) {
+      postgres_connection.insert_news_if_not_exists(news);
+    }
   }
 }
