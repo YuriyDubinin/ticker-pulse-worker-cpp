@@ -1,6 +1,16 @@
 #include "common.h"
 
 namespace common {
+  std::vector<std::string> build_headers_from_json(const nlohmann::json& json_headers) {
+    std::vector<std::string> headers;
+
+    for (auto& [key, value] : json_headers.items()) {
+      headers.push_back(key + ": " + value.get<std::string>());
+    }
+
+    return headers;
+  }
+
   std::string extract_AST(const nlohmann::json& node) {
     std::string result;
 
