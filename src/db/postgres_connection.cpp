@@ -128,7 +128,7 @@ void PostgresConnection::insert_news_if_not_exists(const News& news) {
   paramValues[4] = news.source_url.c_str();
   paramValues[5] = news.story_path.c_str();
   paramValues[6] = news.published.c_str();
-  paramValues[7] = news.link.c_str();
+   paramValues[7] = news.link.c_str();
 
   PGresult* res = PQexecParams(conn, query, 8, nullptr, paramValues, nullptr, nullptr, 0);
 

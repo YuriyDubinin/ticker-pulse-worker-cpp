@@ -12,14 +12,12 @@ int main() {
   ThreadPool   thread_pool(4);
   QuotesWorker quotes_worker;
   NewsWorker   news_worker;
-
-  news_worker.fetch_news();
-
+  
   // thread_pool.enqueue_task([&quotes_worker]() {
   //     while (true) {
   //         quotes_worker.parse_quotes();
 
-  //         std::this_thread::sleep_for(std::chrono::minutes(15));
+  //         std::this_thread::sleep_for(std::chrono::minutes(30));
   //     }
   // });
 
