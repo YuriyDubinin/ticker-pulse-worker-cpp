@@ -3,6 +3,7 @@
 
 #include <libpq-fe.h>
 #include <string>
+#include "news_model.h"
 #include "quote_model.h"
 
 class PostgresConnection {
@@ -16,6 +17,7 @@ class PostgresConnection {
     void      close();
 
     void upsert_quote(const Quote& quote);
+    void insert_news_if_not_exists(const News& news);
 
     PGconn* raw(); // Доступ к PGconn* при необходимости
 

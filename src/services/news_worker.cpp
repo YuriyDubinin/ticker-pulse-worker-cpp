@@ -10,12 +10,18 @@ NewsWorker::~NewsWorker() {
 }
 
 void NewsWorker::fetch_news() {
-  nlohmann::json           body          = {};
+  nlohmann::json body = {
+
+  };
   std::vector<std::string> headers       = {"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
                                             "Accept: application/json", "Referer: https://www.tradingview.com/"};
   nlohmann::json           response_json = http_client.request_json(NEWS_URL, "GET", body.dump(), headers);
 
-  for (auto& [key, value] : response_json[0].items()) {
-    fmt::print("{}: {}\n\n", key, value.dump());
+  for (const auto& headline : response_json.items()) {
+    // fmt::print("{}\n", headline.value().dump());
+
+    News const news = News::from_json(headline.value());
+
+    postgres_connection.insert_news_if_not_exists(news);
   }
 }

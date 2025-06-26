@@ -49,8 +49,6 @@ PGconn* PostgresConnection::raw() {
   return conn;
 }
 
-#include "quote_model.h"
-
 void PostgresConnection::upsert_quote(const Quote& quote) {
   const char* query = R"SQL(
         INSERT INTO quotes (
@@ -100,6 +98,30 @@ void PostgresConnection::upsert_quote(const Quote& quote) {
 
   if (PQresultStatus(res) != PGRES_COMMAND_OK) {
     fmt::print("[PostgresConnection]: Failed to upsert quote: {}\n", PQerrorMessage(conn));
+  }
+
+  PQclear(res);
+}
+
+void PostgresConnection::insert_news_if_not_exists(const News& news) {
+  const char* query = R"SQL(
+        INSERT INTO news (
+            uid,
+            title
+        ) VALUES (
+            $1, $2
+        )
+        ON CONFLICT (uid) DO NOTHING;
+    )SQL";
+
+  const char* paramValues[2];
+  paramValues[0] = news.uid.c_str();
+  paramValues[1] = news.title.c_str();
+
+  PGresult* res = PQexecParams(conn, query, 2, nullptr, paramValues, nullptr, nullptr, 0);
+
+  if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+    fmt::print("[PostgresConnection]: Failed to insert news: {}\n", PQerrorMessage(conn));
   }
 
   PQclear(res);

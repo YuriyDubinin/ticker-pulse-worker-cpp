@@ -13,7 +13,7 @@ int main() {
   QuotesWorker quotes_worker;
   NewsWorker   news_worker;
 
-  news_worker.fetch_news();
+  // news_worker.fetch_news();
 
   // thread_pool.enqueue_task([&quotes_worker]() {
   //     while (true) {

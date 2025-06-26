@@ -1,30 +1,48 @@
 #include "common.h"
 
 namespace common {
-  // Рекурсивная функция для извлечения текста
   std::string extract_AST(const nlohmann::json& node) {
     std::string result;
 
-    if (node.is_string()) {
-      result += node.get<std::string>();
+    if (node.contains("type") && (node["type"] == "p" || node["type"] == "quote")) {
+      if (node.contains("children")) {
+        for (const auto& child : node["children"]) {
+          if (child.is_string()) {
+            result += child.get<std::string>();
+          } else if (child.contains("children")) {
+            for (const auto& sub : child["children"]) {
+              if (sub.is_string()) {
+                result += sub.get<std::string>();
+              }
+            }
+          }
+        }
+        result += "\n\n";
+      }
     }
-
-    if (node.contains("children")) {
+    if (node.contains("children") && node["children"].is_array()) {
       for (const auto& child : node["children"]) {
         result += extract_AST(child);
-      }
-      // Добавление переноса строки, если родительский блок - абзац
-      if (node.contains("type") && node["type"] == "p") {
-        result += "\n";
-      }
-    }
-
-    if (node.contains("type") && node["type"] == "symbol" && node.contains("params")) {
-      if (node["params"].contains("text")) {
-        result += node["params"]["text"].get<std::string>();
       }
     }
 
     return result;
+  }
+  std::string trim_text_to_limit(const std::string& text, size_t limit = 1024) {
+    if (text.length() <= limit)
+      return text;
+    return text.substr(0, limit - 3) + "...";
+  }
+
+  std::string safe_string(const nlohmann::json& j, int index) {
+    return (j.size() > index && !j.at(index).is_null()) ? j.at(index).get<std::string>() : "";
+  }
+
+  int safe_int(const nlohmann::json& j, int index) {
+    return (j.size() > index && j.at(index).is_number_integer()) ? j.at(index).get<int>() : 0;
+  }
+
+  double safe_double(const nlohmann::json& j, int index) {
+    return (j.size() > index && j.at(index).is_number()) ? j.at(index).get<double>() : 0.0;
   }
 } // namespace common
