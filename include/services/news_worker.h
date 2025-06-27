@@ -1,5 +1,5 @@
-#ifndef NEWS_WORKER
-#define NEWS_WORKER
+#ifndef NEWS_WORKER_H
+#define NEWS_WORKER_H
 
 #include "http_client.h"
 #include "postgres_connection.h"

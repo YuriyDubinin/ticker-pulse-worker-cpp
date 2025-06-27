@@ -1,5 +1,5 @@
-#ifndef NEWS_MODEL
-#define NEWS_MODEL
+#ifndef NEWS_MODEL_H
+#define NEWS_MODEL_H
 
 #include <nlohmann/json.hpp>
 #include <string>

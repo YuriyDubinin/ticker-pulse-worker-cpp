@@ -1,5 +1,5 @@
-#ifndef QUOTES_WORKER
-#define QUOTES_WORKER
+#ifndef QUOTES_WORKER_H
+#define QUOTES_WORKER_H
 
 #include <nlohmann/json.hpp>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef POSTGRESS_CONNECTION
-#define POSTGRESS_CONNECTION
+#ifndef POSTGRESS_CONNECTION_H
+#define POSTGRESS_CONNECTION_H
 
 #include <libpq-fe.h>
 #include <string>
