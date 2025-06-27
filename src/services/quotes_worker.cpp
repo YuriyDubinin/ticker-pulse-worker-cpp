@@ -6,7 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <random>
 #include <thread>
-#include "common.h"
+#include "common_utils.h"
 #include "global_config.h"
 
 QuotesWorker::QuotesWorker() : postgres_connection(DB_CONNECTION_INFO) {
@@ -67,8 +67,9 @@ int QuotesWorker::fetch_quotes(unsigned int offset, unsigned int step) {
 
   file >> quotes_headers_json;
 
-  std::vector<std::string> headers = common::build_headers_from_json(quotes_headers_json["headers"][header_index]);
-  nlohmann::json           response_json = http_client.request_json(QUOTES_URL, "POST", body.dump(), headers);
+  std::vector<std::string> headers =
+      common_utils::build_headers_from_json(quotes_headers_json["headers"][header_index]);
+  nlohmann::json response_json = http_client.request_json(QUOTES_URL, "POST", body.dump(), headers);
 
   if (response_json.is_discarded() || response_json.is_null()) {
     fmt::print("[QuotesWorker]: Failed to parse or empty JSON response\n");

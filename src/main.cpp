@@ -21,12 +21,12 @@ int main() {
     }
   });
 
-  thread_pool.enqueue_task([news_worker]() {
-    while (true) {
-      news_worker->fetch_news();
-      std::this_thread::sleep_for(std::chrono::minutes(30));
-    }
-  });
+  // thread_pool.enqueue_task([news_worker]() {
+  //   while (true) {
+  //     news_worker->fetch_news();
+  //     std::this_thread::sleep_for(std::chrono::minutes(30));
+  //   }
+  // });
 
   return 0;
 }

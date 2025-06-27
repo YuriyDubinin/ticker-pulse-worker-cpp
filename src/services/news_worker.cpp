@@ -5,7 +5,7 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <random>
-#include "common.h"
+#include "common_utils.h"
 #include "global_config.h"
 
 NewsWorker::NewsWorker() : postgres_connection(DB_CONNECTION_INFO) {
@@ -33,7 +33,7 @@ void NewsWorker::fetch_news() {
 
   file >> news_headers_json;
 
-  std::vector<std::string> headers       = common::build_headers_from_json(news_headers_json["headers"][header_index]);
+  std::vector<std::string> headers = common_utils::build_headers_from_json(news_headers_json["headers"][header_index]);
   nlohmann::json           response_json = http_client.request_json(NEWS_URL, "GET", body.dump(), headers);
 
   for (const auto& headline : response_json.items()) {
@@ -44,5 +44,5 @@ void NewsWorker::fetch_news() {
     }
   }
 
-  fmt::print("[NewsWorker]: News updated successfully\n");
+  // fmt::print("[NewsWorker]: News updated successfully\n");
 }
