@@ -136,3 +136,33 @@ void PostgresConnection::insert_news_if_not_exists(const News& news) {
 
   PQclear(res);
 }
+
+
+// Подготовить запрос
+bool PostgresConnection::prepare_statement(const std::string& statement_name, const std::string& query) {
+  if (!is_connected())
+    return false;
+  PGresult* res = PQprepare(conn, statement_name.c_str(), query.c_str(), 0, nullptr);
+  if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+    fmt::print(stderr, "[POSTGRESS_CONNECTION]: Prepare failed: {}\n", PQerrorMessage(conn));
+    PQclear(res);
+    return false;
+  }
+  PQclear(res);
+  return true;
+}
+
+// Выполнить подготовленный запрос
+PGresult* PostgresConnection::execute_prepared_statement(const std::string& statement_name,
+                                                         int                params_count,
+                                                         const char* const* param_values) {
+  if (!is_connected()) 
+    return nullptr;
+  PGresult* res = PQexecPrepared(conn, statement_name.c_str(), params_count, param_values, nullptr, nullptr, 0);
+  if (PQresultStatus(res) != PGRES_TUPLES_OK && PQresultStatus(res) != PGRES_COMMAND_OK) {
+    fmt::print(stderr, "[POSTGRESS_CONNECTION]: ExecPrepared failed: {}\n", PQerrorMessage(conn));
+    PQclear(res);
+    return nullptr;
+  }
+  return res;
+}
