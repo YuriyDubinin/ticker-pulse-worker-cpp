@@ -14,12 +14,12 @@ PostgresConnection::~PostgresConnection() {
   close();
 }
 
-bool PostgresConnection::isConnected() const {
+bool PostgresConnection::is_connected() const {
   return conn && PQstatus(conn) == CONNECTION_OK;
 }
 
-PGresult* PostgresConnection::executeQuery(const std::string& query) {
-  if (!isConnected())
+PGresult* PostgresConnection::execute_query(const std::string& query) {
+  if (!is_connected())
     return nullptr;
   PGresult* result = PQexec(conn, query.c_str());
 
@@ -32,7 +32,7 @@ PGresult* PostgresConnection::executeQuery(const std::string& query) {
   return result;
 }
 
-void PostgresConnection::clearResult(PGresult* result) {
+void PostgresConnection::clear_result(PGresult* result) {
   if (result) {
     PQclear(result);
   }

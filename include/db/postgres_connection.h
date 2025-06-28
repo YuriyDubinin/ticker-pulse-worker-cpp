@@ -14,9 +14,9 @@ class PostgresConnection {
     PostgresConnection(const PostgresConnection&)            = delete;
     PostgresConnection& operator=(const PostgresConnection&) = delete;
 
-    bool      isConnected() const;
-    PGresult* executeQuery(const std::string& query);
-    void      clearResult(PGresult* result);
+    bool      is_connected() const;
+    PGresult* execute_query(const std::string& query);
+    void      clear_result(PGresult* result);
     void      close();
 
     void upsert_quote(const Quote& quote);
