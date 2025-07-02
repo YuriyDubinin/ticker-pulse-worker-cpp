@@ -137,7 +137,6 @@ void PostgresConnection::insert_news_if_not_exists(const News& news) {
   PQclear(res);
 }
 
-
 // Подготовить запрос
 bool PostgresConnection::prepare_statement(const std::string& statement_name, const std::string& query) {
   if (!is_connected())
@@ -156,7 +155,7 @@ bool PostgresConnection::prepare_statement(const std::string& statement_name, co
 PGresult* PostgresConnection::execute_prepared_statement(const std::string& statement_name,
                                                          int                params_count,
                                                          const char* const* param_values) {
-  if (!is_connected()) 
+  if (!is_connected())
     return nullptr;
   PGresult* res = PQexecPrepared(conn, statement_name.c_str(), params_count, param_values, nullptr, nullptr, 0);
   if (PQresultStatus(res) != PGRES_TUPLES_OK && PQresultStatus(res) != PGRES_COMMAND_OK) {
