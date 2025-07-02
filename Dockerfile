@@ -25,7 +25,7 @@ WORKDIR /app
 COPY . .
 
 # Установка зависимостей с помощью vcpkg
-RUN /app/vcpkg/vcpkg install fmt
+RUN /app/vcpkg/vcpkg install fmt nlohmann_json curl libpq
 
 # Собираем проект
 WORKDIR /app/build
