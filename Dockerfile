@@ -79,4 +79,4 @@ COPY --from=build /app/resources ./resources
 RUN mkdir build
 COPY --from=build /app/build/TickerPulseWorker ./build/TickerPulseWorker
 
-CMD ["./app/build/TickerPulseWorker"]
+CMD ["./build/TickerPulseWorker"]
