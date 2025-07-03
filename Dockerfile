@@ -10,8 +10,19 @@ RUN apt-get update && apt-get install -y \
     ninja-build \
     pkg-config \
     libssl-dev \
-    ca-certificates && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    zip \
+    unzip \
+    tar \
+    bison \
+    flex \
+    linux-libc-dev \
+    autoconf \
+    automake \
+    libtool \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 
 WORKDIR /app
 
@@ -25,9 +36,9 @@ WORKDIR /app
 COPY . .
 
 # Установка зависимостей с помощью vcpkg
-RUN /app/vcpkg/vcpkg install fmt nlohmann_json curl libpq
+RUN /app/vcpkg/vcpkg install fmt nlohmann-json curl libpq
 
-# Собираем проект
+# Сборка проекта
 WORKDIR /app/build
 RUN cmake .. -DCMAKE_TOOLCHAIN_FILE=/app/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
 RUN make
