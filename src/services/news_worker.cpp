@@ -34,6 +34,8 @@ void NewsWorker::fetch_news() {
   std::vector<std::string> headers = common_utils::build_headers_from_json(news_headers_json["headers"][header_index]);
   nlohmann::json           response_json = http_client.request_json(NEWS_URL, "GET", body.dump(), headers);
 
+  std::reverse(response_json.begin(), response_json.end());
+
   for (const auto& headline : response_json.items()) {
     News const news = News::from_json(headline.value());
 
