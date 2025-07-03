@@ -19,9 +19,7 @@ void NewsWorker::fetch_news() {
   std::mt19937                    gen(rd());
   std::uniform_int_distribution<> header_index_distributor(0, 9);
   nlohmann::json                  news_headers_json;
-  nlohmann::json                  body = {
-
-  };
+  nlohmann::json                  body = {};
 
   int header_index = header_index_distributor(gen);
 
