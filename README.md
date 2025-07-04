@@ -1,4 +1,4 @@
-# ticker-pulse-worker-cpp v.1.0.1
+# ticker-pulse-worker-cpp v.1.0.2
 
 ### Installation Steps
 
