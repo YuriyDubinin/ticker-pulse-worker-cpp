@@ -1,4 +1,4 @@
-# ticker-pulse-worker-cpp v.1.0.2
+# ticker-pulse-worker-cpp v.1.0.3
 
 ### Installation Steps
 
@@ -32,4 +32,32 @@
      ```bash
      cd vcpkg
      ./vcpkg install fmt zlib openssl nlohmann-json libpq
+     ```
+
+6. **Prepare the config directory**:
+   - It is necessary to create the "config" directory at the same level as src.
+   - It should contain a configuration file global_config.h and global_config.cpp.
+   - To work correctly, they must contain the necessary variables.
+   
+7. **Configure the Project with CMake**:
+   - Navigate to the project directory and configure the project:
+     ```bash
+     cd ticker-pulse-bot
+     mkdir build
+     cd build
+     cmake ..
+     ```
+
+   - This will configure the project and prepare it for compilation.
+
+9. **Build the Project**:
+   - Run `make` to compile the bot:
+     ```bash
+     make
+     ```
+
+10. **Run the Bot**:
+   - After successful compilation, you can run the bot using:
+     ```bash
+     ./TickerPulseBot
      ```

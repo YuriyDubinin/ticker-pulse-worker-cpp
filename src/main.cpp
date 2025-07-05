@@ -22,9 +22,18 @@ int main() {
   // });
 
   thread_pool.enqueue_task([news_worker]() {
+    unsigned int category_index = 0;
+
     while (true) {
-      news_worker->fetch_news();
-      std::this_thread::sleep_for(std::chrono::minutes(30));
+      news_worker->fetch_news(category_index);
+
+      if (category_index < 1) {
+        category_index++;
+      } else {
+        category_index = 0;
+      }
+
+      std::this_thread::sleep_for(std::chrono::minutes(PARSE_NEWS_INTERVAL));
     }
   });
 
